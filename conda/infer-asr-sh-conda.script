@@ -1,0 +1,44 @@
+#!/bin/bash
+
+#SBATCH -J infercpu01
+#SBATCH -o OU-MK-IV_0582-infer-asr-cpu-output.txt
+#SBATCH -e OU-MK-IV_0582-infer-asr-cpu-errorlog.txt
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=4
+#SBATCH --time=6:00:00
+
+
+#============================================================================
+# User Inputs
+#============================================================================
+
+# Audio file that will be transcribed
+#pathAudiofile="/dartfs-hpc/rc/home/c/f00458c/asr-w2v2/uploaded-audio/raemaki.wav"
+pathAudiofile="/dartfs-hpc/rc/home/c/f00458c/asr-w2v2/uploaded-audio/OU-MK-IV_0582.wav"
+
+# If you want to use a TAB file with manually-calculated start
+# and end times for the audio splits, then put the path here.
+# If you want the code to calculate the audio splits automatically,
+# then write "NA" in the variable below.
+pathBlankTranscriptions="NA"
+#pathBlankTranscriptions="/dartfs-hpc/rc/home/c/f00458c/asr-w2v2/uploaded-audio/raemaki-empty.tsv"
+
+#============================================================================
+# Other input parameters
+#============================================================================
+
+tempFolderRoot="/dartfs-hpc/rc/home/c/f00458c/asr-w2v2/tempsplits"
+outputFile="OU-MK-IV_0582-output.tsv"
+logFile="OU-MK-IV_0582-log.txt"
+
+#============================================================================
+# Print the time for the start of the processing
+#============================================================================
+
+date
+
+./infer-asr-cpu-conda.sh ${pathAudiofile} ${pathBlankTranscriptions} ${tempFolderRoot} ${outputFile} ${logFile}
+
+echo " "
+date
